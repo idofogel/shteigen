@@ -1,0 +1,2 @@
+var nodeitems = [{id:1,name:'ברי',placex:200,placey:200},{id:2,name:'שמא',placex:600,placey:200},{id:3,name:'חזקת ממון',placex:400,placey:200},{id:4,name:'חזקת הגוף',placex:800,placey:200},{id:5,name:'ברי חזקת ממון',placex:300,placey:(200+100*Math.sqrt(3))},{id:6,name:'שמא חזקת הגוף',placex:700,placey:(200+100*Math.sqrt(3))}];
+export default nodeitems;
