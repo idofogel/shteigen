@@ -13,6 +13,46 @@
   z-index:6;
   position:absolute;
 }
+.wellcom {
+  left: calc(50% - 50px);
+  position:absolute;
+  height:100px;
+  width:200px;
+  background-repeat:no-repeat;
+}
+@keyframes grow-line {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+#link {
+  visibility: hidden;
+}
+.choosemodule {
+  position:absolute;
+  top:450px;
+  left:calc(50% - 70px);
+}
+.modules_names {
+  position: absolute;
+  width: 200px;
+  left: calc(50% - 50px);
+  height: 20px;
+  cursor: pointer;
+  color:blue;
+  text-align: end;
+}
+.input_module {
+  position:absolute;
+  top:480px;
+  width:200px;
+  left: calc(50% - 50px);
+  height:20px;
+}
 .modal-itself {
   padding:12px;
   position:absolute;
@@ -23,6 +63,38 @@
   width:calc(100% - 100px);
   background-color:white;
   border-radius:10px;
+}
+.modal-itself textarea {
+  resize:none;
+  position:absolute;
+  left:170px;
+  top:10px;
+  direction: rtl;
+  width:calc(100% - 210px);
+  height:calc(100% - 70px);
+}
+.arch-nodes {
+  border-color:grey;
+  position:absolute;
+  width:150px;
+  height:calc(100% - 70px);
+  top:10px;
+  left:10px;
+  border-radius:5px;
+  border-style:solid;
+  border-style:solid;
+  border-width:1px
+}
+.modal-itself button {
+  cursor:pointer;
+  color:grey;
+  width:150px;
+  height:30px;
+  border-radius:5px;
+  position:absolute;
+  bottom:10px;
+  background-color:#8ceaee;
+  border-style:none;
 }
 .connected-node {
   cursor:pointer;
