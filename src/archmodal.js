@@ -152,11 +152,11 @@ const Archmodal = (props) => {
         }
     }
     return (<div className="modal-background" >
-        <div className="modal-itself">
+        <div className="modal-itself" key={"modal-itself"}>
             <div className="arch-nodes" >
             {
                 setting_node.map((itm, index) => (
-                    <div onClick={()=>{chooseNode(itm.id);}} className="connected-node" style={{backgroundColor: archs_of_nodes[itm.id] ? 'blue' : '#8ceaee'}}>{itm.name}</div>
+                    <div key={itm.id_num} onClick={()=>{chooseNode(itm.id);}} className="connected-node" style={{backgroundColor: archs_of_nodes[itm.id] ? 'blue' : '#8ceaee'}}>{itm.name}</div>
                 ))
             }
             </div>

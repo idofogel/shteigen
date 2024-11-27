@@ -70,7 +70,7 @@ const Splash = (props) => {
         <input className="input_module" type="text" onKeyDown={changeModule} style={{left:'calc(50%-100px)'}} />
         {  
             modules.map((item, index) => (
-                <div className="modules_names" onClick={chooseModule} indicati={item.id_num} style={{top: (504+(index*20))+'px'}}> {item.caption}</div>
+                <div className="modules_names" key={item.id_num} onClick={chooseModule} indicati={item.id_num} style={{top: (504+(index*20))+'px'}}> {item.caption}</div>
                 ))
         }
     </div>);

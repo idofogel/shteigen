@@ -29,7 +29,7 @@ const ArchGroup = (props) => {
         }
     }
     return (arch_items.map((itm, indx) => (
-        <ArchItem title={itm.name} placex={archToNode(itm.from,itm.to,1)} placey={archToNode(itm.from,itm.to,2)} toplacex={archToNode(itm.from,itm.to,3)} toplacey={archToNode(itm.from,itm.to,4)} />
+        <ArchItem key={itm.id_num} title={itm.name} placex={archToNode(itm.from,itm.to,1)} placey={archToNode(itm.from,itm.to,2)} toplacex={archToNode(itm.from,itm.to,3)} toplacey={archToNode(itm.from,itm.to,4)} />
       )));
 }
 export default ArchGroup;

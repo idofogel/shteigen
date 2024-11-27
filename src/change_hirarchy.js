@@ -98,23 +98,23 @@ const MemHir = () => {
 
         <PresentedNodes items={nodes} callgroup={openMdl} />
         <ArchGroups archs={archs} nodes={nodes} />
-        
-        <div style={{cursor:'pointer',height: '23px',width: '169px',backgroundColor: 'grey',borderRadius: '5px',color: 'white',top: '51px',position: 'absolute',left: '21px'}}>
+       
+        <div className="concept-headline">
             הוסף חיבור בין מושגים
         </div>
-        <div onClick={toggleNodes} style={{left: '22px',position: 'absolute',top: '75px',cursor:'pointer',color:'white',backgroundColor:'#8ceaee',width:'169px',borderRadius:'5px',marginTop:'3px'}}>/\</div>
-        <div ref={parRef} style={{maxHeight: '100px',overflow: 'hidden',position: 'absolute',top: '100px',textAlign: 'center',left: '22px',width: '168px'}}>
+        <div onClick={toggleNodes} className="toggle-up">/\</div>
+        <div ref={parRef} className="node-list">
         {
             
             nodes.map((item, index) => (
-                <div onClick={() => {openMdl();setSourceNode(item.id);}} style={{cursor:'pointer',color:'white',backgroundColor:'#8ceaee',width:'169px',borderRadius:'5px',marginTop:'3px'}}>{item.name}</div>
+                <div key={item.id_num} onClick={() => {openMdl();setSourceNode(item.id);}} className="node-list-item" style={{marginTop:'3px'}}>{item.name}</div>
                 ))
             
             
         }
         {open_modl && <Archmodal long_text={long_text} set_long_text={setLongText} source_node={srcnd} cls_mdl={closeMdl} nodes={nodes} archs={archs} setarchs={setArches} setKod={setNodes} deleteTheNode={deleteNode} mdl={theme} />}
         </div>
-        <div onClick={toggleNodesDown} style={{left: '22px',position: 'absolute',top: '175px',cursor:'pointer',color:'white',backgroundColor:'#8ceaee',width:'169px',borderRadius:'5px',marginTop:'3px'}}>\/</div>
+        <div onClick={toggleNodesDown} className="toggle-down">\/</div>
     </div>);
 }
 export default MemHir;
