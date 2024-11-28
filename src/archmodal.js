@@ -1,6 +1,11 @@
 import React,{ useState,useRef } from 'react';
 import saveToNodes from './save_to_nodes';
 import server_url from './server_url';
+/*modal that allows you to:
+    1. update text of node
+    2. add new connection/arch from node to node
+    3.remove existing arch
+*/
 const Archmodal = (props) => {
     const [new_arch_text_open,setNewArchTextOpen] = useState(false);
     const [to_id,setToId] = useState(null);
@@ -8,15 +13,16 @@ const Archmodal = (props) => {
     const arch_ref = useRef(0);
     
     var setting_node = [],archs_of_nodes={};
-    var trew=0;
-    for(var trewq=0; trewq < props.nodes.length; trewq++){
+    var trew=0,trewq=0;
+    for(trewq=0; trewq < props.nodes.length; trewq++){
         if(props.source_node !== props.nodes[trewq].id){
             setting_node.push(props.nodes[trewq]);
         } else {
             trew = trewq;
         }
     }
-    for(var trewq=0; trewq < props.archs.length; trewq++){
+    trewq=0;
+    for(trewq=0; trewq < props.archs.length; trewq++){
         if(props.archs[trewq].from === props.source_node){
             archs_of_nodes[props.archs[trewq].to] = true;
         } else {
@@ -91,17 +97,16 @@ const Archmodal = (props) => {
     };
     const chooseNode = (itm_id) => {
         if(archs_of_nodes[itm_id]){
+            //if arch already exists- erase it
             for(var iytr=0; iytr < props.archs.length; iytr++){
-                // console.log('arch from: '+props.archs[iytr].from+' arch to: '+props.archs[iytr].to+' itm id argument: '+itm_id+' source_node: '+props.source_node);
                 if((props.archs[iytr].from === itm_id && props.archs[iytr].to === props.source_node) || (props.archs[iytr].to === itm_id && props.archs[iytr].from === props.source_node)){
                     removeItem(props.archs[iytr]);
                 }
             }
         } else {
-            // setNewArch([itm_id,props.source_node]);
+            // show input to write arch name
             setNewArchTextOpen(true);
             setToId(itm_id);
-//setNodes((prevItems) => [...prevItems, {id:(nodes.length+1),name:inRef.current.value,placex:(tres+200),placey:(tresy+200)}]);
         }
     }
     const createNewArch = (event) => {
@@ -132,23 +137,24 @@ const Archmodal = (props) => {
             } else {
                 rew = srcndx+(trgtndx - srcndx)/2;
             }
-            tottxt = trgttxt+" "+srctxt;
+            tottxt = srctxt+" "+arch_ref.current.value+" "+trgttxt;
             ndtop = srcnd >= trgtnd ? srcnd : trgtnd;
             var new_id = (props.nodes.length+1);
             new_arch_id = props.archs.length+1;
+            //create a node
             props.setKod((prevItems) => [...prevItems, {id:new_id,name:tottxt,placex:rew,placey:(ndtop+200), module:props.mdl}]);
-            // props.savetonodes('add_remove',{'nodestoadd':[{id:new_id,name:tottxt,placex:rew,placey:(ndtop+200), module:props.mdl}]});
+            //save the node
             saveToNodes('add_remove',{'nodestoadd':[{id:new_id,name:tottxt,placex:rew,placey:(ndtop+200), module:props.mdl}]});
             
             //create to additional archs 
 
             props.setarchs((prevItems) => [...prevItems, {name:tottxt,from:props.source_node,to:new_id}]);
+            //save the arch
             saveToNodes('add_remove',{'archestoadd':[{id:new_arch_id,name:tottxt,from:props.source_node,to:new_id,module:props.mdl}]});
             new_arch_id = props.archs.length+1;
             props.setarchs((prevItems) => [...prevItems, {name:tottxt,from:to_id,to:new_id}]);
             saveToNodes('add_remove',{'archestoadd':[{id:new_arch_id,name:tottxt,from:to_id,to:new_id,module:props.mdl}]});
             setNewArchTextOpen(false);
-
         }
     }
     return (<div className="modal-background" >

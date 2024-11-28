@@ -42,18 +42,20 @@
   background-color:#8ceaee;
   width:169px;
   border-radius:5px;
-  margin-top:3px
+  margin-top:3px;
+  height:20px;
 }
 .toggle-down {
   left: 22px;
   position: absolute;
-  top: 175px;
+  top: 199px;
   cursor:pointer; 
   color:white;
   background-color:#8ceaee;
   width:169px;
   border-radius:5px;
   margin-top:3px;
+  height:20px;
 }
 .outer_red_circle {
   cursor:pointer;
@@ -132,7 +134,8 @@
   border-radius:5px;
   border-style:solid;
   border-style:solid;
-  border-width:1px
+  border-width:1px;
+  overflow: auto;
 }
 .modal-itself button {
   cursor:pointer;
@@ -150,9 +153,11 @@
   margin-left:10px;
   color:grey;margin-top:3px;
   width:130px;
-  height:25px;
+  /* height:25px; */
+  line-height: 25px;
   background-color:#8ceaee;
   border-radius:5px;
+  overflow: auto;
 }
 input {
     left: 20px;

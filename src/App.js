@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import React, { createContext, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Backgrnd from './backgrnd';
 import MemHir from './change_hirarchy';

@@ -1,5 +1,6 @@
 import React from 'react';
 import ArchItem from './architem';
+/* container of archs*/
 const ArchGroup = (props) => {
   var arch_items = props.archs;
   var node_items = props.nodes;

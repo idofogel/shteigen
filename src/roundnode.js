@@ -4,17 +4,10 @@ const Roundnode = (props) => {
     var indexer = 10;
     const intervalRef = useRef(0);
     const startanim = useRef(true);
-    const [blk,setBlk] = useState(0);
-    
-    const handleWindowLoad = ()=> {
-        //window.requestAnimationFrame(changeRound);
-    }
-    // useEffect(() => {
-    //     window.onload = handleWindowLoad;
-    //   }, []);
+    // const [blk,setBlk] = useState(0);
+
     const changeRound = ()=> {
-        setBlk((a) => a+1);
-        // console.log('indexer: '+indexer);
+        // setBlk((a) => a+1);
         if(indexer === 0){
             var innerCircle = intervalRef.current.getElementsByTagName('div')[0];
             var cur_width = parseInt(intervalRef.current.style.width.replace('px',''));
@@ -23,8 +16,6 @@ const Roundnode = (props) => {
                 intervalRef.current.style.height = (cur_width + 2)+'px';
                 intervalRef.current.style.top = (parseInt(intervalRef.current.style.top.replace('px','')) - 1)+'px';
                 intervalRef.current.style.left = (parseInt(intervalRef.current.style.left.replace('px','')) - 1)+'px';
-                // innerCircle.style.top = (parseInt(innerCircle.style.top.replace('px','')) + 1)+'px';
-                // innerCircle.style.left = (parseInt(innerCircle.style.left.replace('px','')) + 1)+'px';
                 innerCircle.style.width = (parseInt(innerCircle.style.width.replace('px','')) + 2)+'px';
                 innerCircle.style.height = (parseInt(innerCircle.style.height.replace('px','')) + 2)+'px';
 
@@ -43,16 +34,13 @@ const Roundnode = (props) => {
         indexer--;
         if(startanim.current)
             window.requestAnimationFrame(changeRound);
-        setBlk((a) => a-1);
+        // setBlk((a) => a-1);
     }
     const stopAnm = () => {
         startanim.current=false;
-        // console.log('onmouseout '+startanim.current);
     }
     const startChangeRound = () => {
-        // console.log('item_locked: '+blk);
         startanim.current=true;
-        // console.log('onmouseover'+startanim.current);
         changeRound();
     }
     const clearWhiteCircle = () => {

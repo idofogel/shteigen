@@ -36,7 +36,7 @@ const Splash = (props) => {
             document.getElementById('link').click();
         }
         console.log('Theme updated:', theme);
-    }, [theme]);
+    }, [theme_set]);
       const chooseModule = (event) => {
         // setTheme
         var tretheme = parseInt(event.currentTarget.getAttribute('indicati'));
