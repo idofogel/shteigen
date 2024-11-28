@@ -68,3 +68,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+The gist of the project is that it is a web application that allows you to represent logical constructs in the form of a graph with nodes and arches that connect them. There are different modules for different groups of structures and you can enter them and change them at will.
+This is only the client side. The server side is written in Ruby and is placed in the repository "shteigen_back".
+The project consists of a splash screen that the code for is in the "splash" component, the App that is the router of the app and the "change_hirarchy" that is the backoffice of the app.
