@@ -41,8 +41,13 @@ const ArchItem = (props) => {
             transform_deg = 'rotate(90deg)';
         }
     }
-    
-    return (<div className="arch_item" style={{top:(props.placey+30),left:(props.placex+30+arch_left),width:arch_width,transform:transform_deg,height:'2px',transformOrigin: '0% 0%'}}>
+    let emptycolor = {};
+    if(props.colorize){
+        emptycolor = {backgroundColor:props.colorize};
+        // console.log('color');
+        // console.log(emptycolor);
+    }
+    return (<div className="arch_item" style={{top:(props.placey+30),left:(props.placex+30+arch_left),width:arch_width,transform:transform_deg,height:'2px',transformOrigin: '0% 0%',backgroundColor: props.colorize === "red" ? "red" : "blue"}}>
         <span style={{textAlign:'center'}}>{props.title}</span>
     </div>);
 }
