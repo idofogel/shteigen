@@ -14,6 +14,12 @@ const MemHir = () => {
     const [open_modl,openModal] = useState(false);
     const [srcnd,setSourceNode] = useState(0);
     const [long_text,setLongText] = useState({});
+    const fir_item = useRef(0);
+    const sec_item = useRef(0);
+    const json_arr = useRef({});
+    // const nodes_arr = useRef([]);
+    const [cncpt,setCncpt] = useState(false);
+    const [scndcncpt,setScndscndCncpt] = useState(false);
     const inRef = useRef(0);
     const parRef = useRef(null);
     const {theme,setTheme} = useContext(ThemeContext);
@@ -93,32 +99,163 @@ const MemHir = () => {
     const openMdl = () => {
         openModal(true);
     }
+    const changeLevelOfNode = (node_id,place_x,place_y) => {
+      for(var itrya = 0; itrya<nodes.length; itrya++){
+        let nde = nodes[itrya];
+        if(nde.id === node_id){
+          nde.placex = place_x;
+          nde.placey = place_y;
+          saveToNodes('update_node',{'update_node':{id_num:nde.id,name:nde.name,placex:nde.placex,placey:nde.placey, module:nde.module,txt:nde.text}});
+          break;
+        }
+
+      }
+    }
     const closeMdl = () => {
         openModal(false);
     }
     const deleteNode = () => {
         // srcnd
     }
+    const setConcept = () => {
+      setCncpt(!cncpt);
+    }
+    const setSecondConcept = () => {
+      setScndscndCncpt(!scndcncpt);
+    }
+    const setSecondItem = (idnum) => {
+      sec_item.current = idnum;
+    }
+    const setArchesitem = (idnum) => {
+      // for(var iterat = 0;iterat < nodes.length;iterat++){
+      //   if(nodes[iterat].id_num === idnum)
+      //     fir_item = nodes[iterat];
+      // }
+      fir_item.current = idnum;
+      // setFirItem((a)=>{a=idnum;});
+      // fir_item = idnum;
+    }
+    const copyArr = (old_arr) => {
+      var newarr = [];
+      for(var irty=0;irty < old_arr.length;irty++){
+        newarr.push(old_arr[irty]);
+      }
+      return newarr;
+    }
+    let list_od_arrs = [];
+    const bFSRecurse = (orig_node_list,orig_arch_list) => {
+      var res_arr = [];
+      var array_of_arrays = [];
+      //fir_item,sec_item
+      //add all new nodes to res_arr
+      var checked = false;
+      
+      let arrnde = [];
+      let archs_inds = [];
+      //find highest node
+      let highest_node = 0;
+      for(var archs_index = 0;archs_index < nodes.length;archs_index++){
+        if(nodes[archs_index].placey > highest_node)
+          highest_node = nodes[archs_index].placey;
+      }
+      //run a BFS to find a path from from fir_item to sec_item
+      let new_orig_node_list = copyArr(orig_node_list);
+      list_od_arrs.push(new_orig_node_list);
+      let stop_algo = false;
+      //iterate over the levels
+      for(var height_index = 0; height_index < parseInt(highest_node / 200); height_index++){
+        let new_nodes_list = [];
+        new_orig_node_list = copyArr(list_od_arrs[list_od_arrs.length-1]);
+        for(var archs_index = 0;archs_index < new_archs.length;archs_index++){
+          if(new_orig_node_list.includes(new_archs[archs_index].from) && (parseInt(new_nodes1[new_archs[archs_index].to].placey /100)*100) > new_nodes1[new_archs[archs_index].from].placey) {
+            new_nodes_list.push(new_archs[archs_index].to);
+            if(new_archs[archs_index].to===sec_item.current){
+              new_nodes_list = [new_archs[archs_index].to];
+              stop_algo=true;
+              break;
+            }
+          }
+          if(new_orig_node_list.includes(new_archs[archs_index].to) && (parseInt(new_nodes1[new_archs[archs_index].from].placey /100)*100) > new_nodes1[new_archs[archs_index].to].placey) {
+            new_nodes_list.push(new_archs[archs_index].from);
+            if(new_archs[archs_index].from===sec_item.current){
+              new_nodes_list = [new_archs[archs_index].from];
+              stop_algo=true;
+              break;
+            }
+          }
+        }
+        list_od_arrs.push(new_nodes_list);
+        if(stop_algo===true){break;}
+      }
+      //if a path was not found stop the function
+    if(stop_algo === false)
+      return;
+
+
+      console.log('list_od_arrs:');
+      console.log(list_od_arrs);
+      let check_loose = {};
+      check_loose[fir_item] = 1;
+      check_loose[sec_item] = 1;
+      //paint the path red
+      for(var iter_list = (list_od_arrs.length-1);iter_list>-1;iter_list--){
+        for(var iter_on_arches=0; iter_on_arches < archs.length;iter_on_arches++){
+          if(list_od_arrs[iter_list] ===undefined || list_od_arrs[iter_list-1] === undefined)
+            continue;
+          
+          if(list_od_arrs[iter_list].includes(archs[iter_on_arches].from) && list_od_arrs[iter_list-1].includes(archs[iter_on_arches].to) || list_od_arrs[iter_list].includes(archs[iter_on_arches].to) && list_od_arrs[iter_list-1].includes(archs[iter_on_arches].from)){
+            archs[iter_on_arches].color="red";
+            check_loose[archs[iter_on_arches].from] = check_loose[archs[iter_on_arches].from] === undefined ? 1 : check_loose[archs[iter_on_arches].from]++;
+            check_loose[archs[iter_on_arches].to] = check_loose[archs[iter_on_arches].to] === undefined ? 1 : check_loose[archs[iter_on_arches].to]++;
+          }
+
+        }
+      }
+
+      setArches(archs);
+    }
+    let new_archs = [],new_nodes1={};
+    const clearPath = () => {
+      for(var iter_red=0;iter_red<archs.length;iter_red++){
+        archs[iter_red].color = undefined;
+      }
+    }
+    const startBFS = () => {
+      clearPath();
+      new_archs = [];
+      for(var itre=0;itre< archs.length;itre++){
+        new_archs.push(archs[itre]);
+      }
+      itre=0;
+      for(itre=0;itre< nodes.length;itre++){
+        new_nodes1[nodes[itre].id] = nodes[itre];
+      }
+      var new_jsons = bFSRecurse([fir_item.current]);
+      console.log('list_od_arrs:');
+      console.log(list_od_arrs);
+      console.log('new_jsons');
+      console.log(json_arr.current);
+  
+      setArches(archs);
+      new_archs = [];new_nodes1={};
+    }
+    
     return (<div className="App">
         <input ref={inRef} type='text' placeholder='הוסף מושג' onKeyDown={addItemToList}/>
 
-        <PresentedNodes items={nodes} callgroup={openMdl} />
+        <PresentedNodes items={nodes} callgroup={openMdl} levelchanger={changeLevelOfNode} />
         <ArchGroups archs={archs} nodes={nodes} />
        
         <div className="concept-headline">
             הוסף חיבור בין מושגים
         </div>
         
-    
-    
-    
-    
         <div onClick={toggleNodes} className="toggle-up"><span onClick={toggleNodes} style={{backgroundRepeat: 'no-repeat',left: '75px',backgroundPosition: 'center',backgroundSize: '21px 16px',zIndex: 2,position: 'absolute',width: '20px',height: '20px',backgroundImage: `url(${require('./arrow_up.png')})`}}></span></div>
         <div ref={parRef} className="node-list">
         {
             
             nodes.map((item, index) => (
-                <div key={item.id_num} onClick={() => {openMdl();setSourceNode(item.id);}} className="node-list-item" style={{marginTop:'3px'}}>{item.name}</div>
+                <div key={item.id_num} onClick={() => {openMdl();setSourceNode((a)=> a=item.id);}} className="node-list-item" style={{marginTop:'3px'}}>{item.name}</div>
                 ))
             
             
@@ -126,6 +263,18 @@ const MemHir = () => {
         {open_modl && <Archmodal long_text={long_text} set_long_text={setLongText} source_node={srcnd} cls_mdl={closeMdl} nodes={nodes} archs={archs} setarchs={setArches} setKod={setNodes} deleteTheNode={deleteNode} mdl={theme} />}
         </div>
         <div onClick={toggleNodesDown} className="toggle-down"><span onClick={toggleNodesDown} style={{backgroundRepeat: 'no-repeat',left: '75px',backgroundPosition: 'center',backgroundSize: '21px 16px',zIndex: 2,position: 'absolute',width: '20px',height: '20px',backgroundImage: `url(${require('./arrow_down.png')})`}}></span></div>
+        <div className="choose-course">בחר מסלול ממושג למושג </div>
+        <div onClick={setConcept} className="choose-course" style={{top:'254px'}}>מושג 1</div><div className="choose-source-fir" >
+        { cncpt && nodes.map((item, index) => (
+                <div key={item.id} onClick={() => {setArchesitem(item.id);setConcept();}} className="node-list-item" style={{marginTop:'3px'}}>{item.name}</div>
+                ))
+                }
+        </div>
+        <div onClick={setSecondConcept} className="choose-course" style={{top:'285px'}}>מושג 2</div><div className="choose-source-fir">{scndcncpt && 
+        nodes.map((item, index) => (
+          <div key={item.id_num} onClick={() => {setSecondItem(item.id);startBFS();setSecondConcept();}} className="node-list-item" style={{marginTop:'3px'}}>{item.name}</div>
+          ))}
+          </div>
     </div>);
 }
 export default MemHir;
