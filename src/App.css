@@ -6,6 +6,42 @@
   height: 40vmin;
   pointer-events: none;
 }
+.choose-course {
+  left: 22px;
+    position: absolute;
+    top: 223px;
+    cursor: pointer;
+    color: white;
+    background-color: #8ceaee;
+    width: 169px;
+    border-radius: 5px;
+    margin-top: 3px;
+    height: 20px;
+    padding-bottom: 5px;
+    font-size: 15px;
+}
+.choose-source-fir {
+  position: absolute;
+  top: 254px;
+  /* border-style: solid;
+  border-width: 1px; */
+  left: 193px;
+  z-index:6;
+}
+.choose-source-fir .node-list-item {
+    left: 22px;
+    position: relative;
+    cursor: pointer;
+    color: white;
+    background-color: #8ceaee;
+    width: 169px;
+    border-radius: 5px;
+    margin-top: 3px;
+    height: 20px;
+    padding-bottom: 5px;
+    font-size: 15px;
+}
+
 .node-list {
   max-height: 100px;
   overflow: hidden;
@@ -122,7 +158,7 @@
   top:10px;
   direction: rtl;
   width:calc(100% - 210px);
-  height:calc(100% - 70px);
+  height:calc(100% - 120px);
 }
 .arch-nodes {
   border-color:grey;
@@ -181,6 +217,15 @@ input {
   height:100%;
   background-color:rgba(0,0,0,0.5);
   z-index:12;
+}
+.modal-background input{
+  position: absolute;
+  left: 170px;
+  top: calc(100% - 94px);
+  direction: rtl;
+  width: calc(100% - 210px);
+  height: 30px;
+  bottom: 0px;
 }
 .arch_item {
   z-index:0;
