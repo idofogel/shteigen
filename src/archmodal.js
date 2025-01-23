@@ -1,4 +1,4 @@
-import React,{ useState,useRef } from 'react';
+import React,{ useState,useRef,useEffect } from 'react';
 import saveToNodes from './save_to_nodes';
 import server_url from './server_url';
 /*modal that allows you to:
@@ -11,7 +11,7 @@ const Archmodal = (props) => {
     const [to_id,setToId] = useState(null);
     const text_obj = useRef("");
     const arch_ref = useRef(0);
-    
+    console.log(props.source_node);
     var setting_node = [],archs_of_nodes={};
     var trew=0,trewq=0;
     for(trewq=0; trewq < props.nodes.length; trewq++){
@@ -31,6 +31,18 @@ const Archmodal = (props) => {
             }
         }
     }
+    useEffect(() => {
+        for(var itera = 0; itera < props.nodes.length; itera++){
+            if(props.nodes[itera].id === props.source_node){
+                document.getElementById('name_val').value = props.nodes[itera].name;
+            }
+        }
+      
+        return () => {
+          console.log("Component will unmount!");
+        };
+      }, []);
+
     const saveLongText = (event) => {
         var n_nodes = [];
         for(var itera = 0; itera < props.nodes.length;itera++){
@@ -38,6 +50,7 @@ const Archmodal = (props) => {
             if(props.nodes[itera].id === props.source_node){
                 var cur_text = event.currentTarget.parentElement.getElementsByTagName('textarea')[0].value;
                 n_nodes[itera].txt = cur_text;
+                n_nodes[itera].name = document.getElementById('name_val').value;
                 saveToNodes('update_node',{'update_node':{id_num:n_nodes[itera].id,name:n_nodes[itera].name,placex:n_nodes[itera].placex,placey:n_nodes[itera].placey, module:props.mdl,txt:cur_text}});
             }
             
@@ -109,6 +122,21 @@ const Archmodal = (props) => {
             setToId(itm_id);
         }
     }
+    const changeName = (event) => {
+        if(event.keyCode === 13){
+            debugger;
+            var n_nodes = [];
+            for(var itera = 0; itera < props.nodes.length;itera++){
+                n_nodes.push(props.nodes[itera]);
+                if(props.nodes[itera].id === props.source_node){
+                    var cur_text = event.currentTarget.value;
+                    n_nodes[itera].name = cur_text;
+                    saveToNodes('update_node',{'update_node':{id_num:n_nodes[itera].id,name:n_nodes[itera].name,placex:n_nodes[itera].placex,placey:n_nodes[itera].placey, module:props.mdl,txt:cur_text}});
+                }
+            }
+            props.setKod(n_nodes);
+        }
+    }
     const createNewArch = (event) => {
         if(event.keyCode === 13){
             var new_arch_id = props.archs.length+1;
@@ -167,6 +195,7 @@ const Archmodal = (props) => {
             }
             </div>
             <textarea ref={text_obj} >{props.nodes[trew].txt}</textarea>
+            <input id="name_val" type="text" placeholder="שם המושג" onKeyDown={changeName}></input>
             <button onClick={saveLongText} style={{right:'10px'}}>שמור</button>
             <button onClick={deleteNode} style={{right:'170px'}}>מחק</button>
             {new_arch_text_open && <div style={{position:'absolute',width:'100%',height:'100%',top:'0px',left:'0px',backgroundColor:'rgba(100,100,100,0.5)'}}><input ref={arch_ref} placeholder='כתוב שם של קשת' type='text' onKeyDown={createNewArch} style={{position: 'absolute',top: 'calc(50% - 5px)',left: 'calc(50% - 75px)'}} /></div>}
