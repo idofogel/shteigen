@@ -1,2 +1,2 @@
-var server_address = 'https://shteigenback-production.up.railway.app';
+var server_address = 'https://shteigen-back.onrender.com';
 export default server_address;
